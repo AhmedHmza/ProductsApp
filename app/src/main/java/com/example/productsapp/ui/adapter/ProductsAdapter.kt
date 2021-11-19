@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
@@ -12,8 +13,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.productsapp.R
 import com.example.productsapp.model.Product
 import com.example.productsapp.ui.fragment.product_details.ProductDetailsFragment
+import com.example.productsapp.ui.main_activity.MainActivity
 import com.example.productsapp.util.Constants
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.fragment_product_details.*
 
 
 class ProductsAdapter(val context: FragmentActivity) :
@@ -46,6 +49,14 @@ class ProductsAdapter(val context: FragmentActivity) :
             productHolder.rating.background = null
             Picasso.get().load(currentProduct.image)
                 .into(productHolder.imageViewProductThumb)
+            productHolder.addToCart.setOnClickListener(object : View.OnClickListener {
+                override fun onClick(v: View?) {
+                    if(currentProduct!=null){
+                        (context as MainActivity).addProduct(currentProduct)
+                    }
+                }
+
+            })
             productHolder.textViewProductName.setText(currentProduct.title)
             productHolder.rating.rating = currentProduct.rating.rate.toFloat()
             productHolder.ratingCount.text = "(" + currentProduct.rating.count.toString() + ")"
@@ -77,6 +88,7 @@ class ProductsAdapter(val context: FragmentActivity) :
         var textViewProductPrice: TextView
         var ratingCount: TextView
         var rating: RatingBar
+        var addToCart: Button
 
         init {
             imageViewProductThumb = itemView.findViewById(R.id.productImage)
@@ -84,6 +96,7 @@ class ProductsAdapter(val context: FragmentActivity) :
             textViewProductPrice = itemView.findViewById(R.id.textViewProductPrice)
             rating = itemView.findViewById(R.id.ratingBar)
             ratingCount = itemView.findViewById(R.id.ratingCount)
+            addToCart = itemView.findViewById(R.id.addToCartButton)
         }
     }
 
