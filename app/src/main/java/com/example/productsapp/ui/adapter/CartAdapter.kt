@@ -1,23 +1,18 @@
 package com.example.productsapp.ui.adapter
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.RatingBar
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
 import com.example.productsapp.R
 import com.example.productsapp.model.Product
-import com.example.productsapp.ui.fragment.product_details.ProductDetailsFragment
-import com.example.productsapp.util.Constants
 import com.squareup.picasso.Picasso
 
 
-class CartAdapter(val context: FragmentActivity) :
+class CartAdapter(val context: FragmentActivity, val listener: QuantityUpdated) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var mProducts: MutableList<Product>
 
@@ -46,10 +41,12 @@ class CartAdapter(val context: FragmentActivity) :
             productHolder.add.setOnClickListener {
                 currentProduct.quantity++
                 productHolder.quantity.text = currentProduct.quantity.toString()
+                listener.setTotal(products = mProducts)
             }
             productHolder.subtract.setOnClickListener {
                 currentProduct.quantity--
                 productHolder.quantity.text = currentProduct.quantity.toString()
+                listener.setTotal(products = mProducts)
             }
         }
     }
@@ -78,5 +75,9 @@ class CartAdapter(val context: FragmentActivity) :
 
     init {
         mProducts = ArrayList()
+    }
+
+    interface QuantityUpdated{
+        fun setTotal(products: List<Product>)
     }
 }
