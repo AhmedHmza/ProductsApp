@@ -19,6 +19,7 @@ import com.example.productsapp.ui.main_activity.MainActivity
 import com.example.productsapp.util.Constants
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_product_details.*
+import kotlinx.android.synthetic.main.fragment_product_list.*
 import javax.inject.Inject
 
 class ProductDetailsFragment : BaseFragment(),ProductDetailsContract.View {
@@ -35,7 +36,6 @@ class ProductDetailsFragment : BaseFragment(),ProductDetailsContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        shimmer_view_container.startShimmerAnimation()
         initDagger()
         if(arguments!=null){
             presenter.checkBundle(arguments!!)
@@ -64,7 +64,6 @@ class ProductDetailsFragment : BaseFragment(),ProductDetailsContract.View {
         product_name.text = product.title
         description.text = product.description
         thePriceOfProduct.text = product.price.toString() + "$"
-        shimmer_view_container.stopShimmerAnimation()
         ratingCount.text ="("+ product.rating.count +")"
         ratingBar.rating = product.rating.rate.toFloat()
         category.text = product.category
