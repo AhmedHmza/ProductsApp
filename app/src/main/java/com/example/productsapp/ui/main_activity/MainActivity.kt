@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import com.example.productsapp.R
 import com.example.productsapp.application.BaseApp
@@ -49,11 +51,16 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     }
 
     private fun startCartActivity() {
-        val intent = Intent(this,CartActivity::class.java)
-        val bundle = Bundle()
-        bundle.putSerializable(Constants.PRODUCT , products as Serializable)
-        intent.putExtras(bundle)
-        startActivity(intent)
+        if(products!=null && products.size>0){
+            val intent = Intent(this,CartActivity::class.java)
+            val bundle = Bundle()
+            bundle.putSerializable(Constants.PRODUCT , products as Serializable)
+            intent.putExtras(bundle)
+            startActivity(intent)
+        }
+        else{
+            Toast.makeText(this,"Please Add products to Cart!!",Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun initDagger() {
